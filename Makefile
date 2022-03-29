@@ -1,4 +1,4 @@
-.PHONY: install-dependencies-local install-dependencies-ci codegen format lint
+.PHONY: install-dependencies-local install-dependencies-ci dev codegen format lint
 
 BUF_VERSION = v1.3.0
 BUF_FILENAME = buf-$(shell uname -s)-$(shell uname -m)
@@ -13,6 +13,10 @@ install-dependencies-ci:
 	sudo mv ${BUF_FILENAME} ${BIN_DIR}/buf
 	sudo chmod +x ${BIN_DIR}/buf
 	apt-get --no-install-recommends install -y clang-format
+
+dev:
+	go get github.com/cosmtrek/air
+	go run github.com/cosmtrek/air -c .air.toml
 
 codegen:
 	buf generate
