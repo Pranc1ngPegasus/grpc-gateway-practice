@@ -3,7 +3,10 @@
 package v1
 
 import (
+	context "context"
 	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -15,6 +18,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type GrpcGatewayPracticeServiceClient interface {
+	Echo(ctx context.Context, in *EchoRequest, opts ...grpc.CallOption) (*EchoResponse, error)
 }
 
 type grpcGatewayPracticeServiceClient struct {
@@ -25,14 +29,28 @@ func NewGrpcGatewayPracticeServiceClient(cc grpc.ClientConnInterface) GrpcGatewa
 	return &grpcGatewayPracticeServiceClient{cc}
 }
 
+func (c *grpcGatewayPracticeServiceClient) Echo(ctx context.Context, in *EchoRequest, opts ...grpc.CallOption) (*EchoResponse, error) {
+	out := new(EchoResponse)
+	err := c.cc.Invoke(ctx, "/grpc_gateway_practice.v1.GrpcGatewayPracticeService/Echo", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // GrpcGatewayPracticeServiceServer is the server API for GrpcGatewayPracticeService service.
 // All implementations should embed UnimplementedGrpcGatewayPracticeServiceServer
 // for forward compatibility
 type GrpcGatewayPracticeServiceServer interface {
+	Echo(context.Context, *EchoRequest) (*EchoResponse, error)
 }
 
 // UnimplementedGrpcGatewayPracticeServiceServer should be embedded to have forward compatible implementations.
 type UnimplementedGrpcGatewayPracticeServiceServer struct {
+}
+
+func (UnimplementedGrpcGatewayPracticeServiceServer) Echo(context.Context, *EchoRequest) (*EchoResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Echo not implemented")
 }
 
 // UnsafeGrpcGatewayPracticeServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -46,13 +64,36 @@ func RegisterGrpcGatewayPracticeServiceServer(s grpc.ServiceRegistrar, srv GrpcG
 	s.RegisterService(&GrpcGatewayPracticeService_ServiceDesc, srv)
 }
 
+func _GrpcGatewayPracticeService_Echo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EchoRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GrpcGatewayPracticeServiceServer).Echo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/grpc_gateway_practice.v1.GrpcGatewayPracticeService/Echo",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GrpcGatewayPracticeServiceServer).Echo(ctx, req.(*EchoRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // GrpcGatewayPracticeService_ServiceDesc is the grpc.ServiceDesc for GrpcGatewayPracticeService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var GrpcGatewayPracticeService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "grpc_gateway_practice.v1.GrpcGatewayPracticeService",
 	HandlerType: (*GrpcGatewayPracticeServiceServer)(nil),
-	Methods:     []grpc.MethodDesc{},
-	Streams:     []grpc.StreamDesc{},
-	Metadata:    "grpc_gateway_practice/v1/api.proto",
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "Echo",
+			Handler:    _GrpcGatewayPracticeService_Echo_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "grpc_gateway_practice/v1/api.proto",
 }

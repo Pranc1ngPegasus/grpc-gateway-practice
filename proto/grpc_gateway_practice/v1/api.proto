@@ -3,4 +3,17 @@ syntax = "proto3";
 package grpc_gateway_practice.v1;
 option go_package = "github.com/Pranc1ngPegasus/grpc-gateway-practice/proto/grpc_gateway_practice/v1";
 
-service GrpcGatewayPracticeService {}
+import "google/api/annotations.proto";
+
+service GrpcGatewayPracticeService {
+  rpc Echo(EchoRequest) returns (EchoResponse) {
+    option (google.api.http) = {
+      post : "/v1/echo"
+      body : "*"
+    };
+  }
+}
+
+message EchoRequest { string value = 1; }
+
+message EchoResponse { string value = 1; }

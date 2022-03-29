@@ -4,6 +4,9 @@
 ## Table of Contents
 
 - [grpc_gateway_practice/v1/api.proto](#grpc_gateway_practice_v1_api-proto)
+    - [EchoRequest](#grpc_gateway_practice-v1-EchoRequest)
+    - [EchoResponse](#grpc_gateway_practice-v1-EchoResponse)
+  
     - [GrpcGatewayPracticeService](#grpc_gateway_practice-v1-GrpcGatewayPracticeService)
   
 - [Scalar Value Types](#scalar-value-types)
@@ -14,6 +17,36 @@
 <p align="right"><a href="#top">Top</a></p>
 
 ## grpc_gateway_practice/v1/api.proto
+
+
+
+<a name="grpc_gateway_practice-v1-EchoRequest"></a>
+
+### EchoRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| value | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="grpc_gateway_practice-v1-EchoResponse"></a>
+
+### EchoResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| value | [string](#string) |  |  |
+
+
+
 
 
  
@@ -30,6 +63,7 @@
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
+| Echo | [EchoRequest](#grpc_gateway_practice-v1-EchoRequest) | [EchoResponse](#grpc_gateway_practice-v1-EchoResponse) |  |
 
  
 
