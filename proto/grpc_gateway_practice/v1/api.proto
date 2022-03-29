@@ -1,0 +1,6 @@
+syntax = "proto3";
+
+package grpc_gateway_practice.v1;
+option go_package = "github.com/Pranc1ngPegasus/grpc-gateway-practice/proto/grpc_gateway_practice/v1";
+
+service GrpcGatewayPracticeService {}
